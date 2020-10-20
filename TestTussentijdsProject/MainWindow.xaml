@@ -9,7 +9,18 @@
         Title="MainWindow" Height="450" Width="800"
         Loaded="Window_Loaded">
     <Grid>
-        <DataGrid x:Name="dataGrid1" Width="auto" ColumnWidth="*" MinColumnWidth="100"/>
+        <ScrollViewer>
+            <StackPanel>
+                
+
+                <DataGrid x:Name="dataGrid1" Width="auto" ColumnWidth="*" MinColumnWidth="100" IsManipulationEnabled="True" SelectionMode="Single" SelectionUnit="Cell">
+
+                </DataGrid>
+                <Button x:Name="btnSelectedItem" Click="btnSelectedItem_Click">item</Button>
+                <Button x:Name="btnSelectedrow" Click="btnSelectedrow_Click">row</Button>
+
+            </StackPanel>
+        </ScrollViewer>
         
     </Grid>
 </Window>
