@@ -108,7 +108,7 @@ namespace TestTussentijdsProject
                 {
                     MessageBox.Show(item.Voornaam.ToString());
                 }
-               
+
                 //var werknrm = obj;
                 //MessageBox.Show(werknrm.ToString());
             }
@@ -118,37 +118,38 @@ namespace TestTussentijdsProject
         {
             using (TestProjectEntities ctx = new TestProjectEntities())
             {
-                var werknmr = ctx.Werknemers.Select(w => new { WerknemerID = w.WerknemerID, Achternaam = w.Achternaam, Voornaam = w.Voornaam, Functie = w.Functie, Beleefdheidstitel = w.Beleefdheidstitel, Geboortedatum = (DateTime)w.Geboortedatum, In_dienst = (DateTime)w.In_dienst });
-                //var werknmr = ctx.Werknemers.Select(w => w);
+                //var werknmr = ctx.Werknemers.Select(w => new { WerknemerID = w.WerknemerID, Achternaam = w.Achternaam, Voornaam = w.Voornaam, Functie = w.Functie, Beleefdheidstitel = w.Beleefdheidstitel, Geboortedatum = (DateTime)w.Geboortedatum, In_dienst = (DateTime)w.In_dienst });
+                var werknmr = ctx.Werknemers.Select(w => w);
                 //JsonSerialize(werknmr, "gegevens.Json");
                 List<Werknemer> testwerknemers = new List<Werknemer>();
                 foreach (var item in werknmr)
                 {
-                    
+
                     Werknemer test = new Werknemer() { WerknemerID = item.WerknemerID, Achternaam = item.Achternaam, Voornaam = item.Voornaam, Functie = item.Functie, Beleefdheidstitel = item.Beleefdheidstitel, Geboortedatum = (DateTime)item.Geboortedatum, In_dienst = (DateTime)item.In_dienst };
                     //JsonSerializer jsonSerializer = new JsonSerializer();
                     testwerknemers.Add(test);
                 }
-if (File.Exists("gegevens.Json"))
+                if (!File.Exists("gegevens.Json"))
+                {
+                    //File.Delete("gegevens.Json");
+                    //File.Create("gegevens.Json");
+                    //StreamWriter sw = new StreamWriter("gegevens.Json",true);
+                    //JsonWriter jsonWriter = new JsonTextWriter(sw);
+
+                    //jsonSerializer.Serialize(jsonWriter, item);
+
+                    //jsonWriter.Close();
+                    //sw.Close();
+                    using (FileStream fs = File.Create("gegevens.Json"))
                     {
-                        //StreamWriter sw = new StreamWriter("gegevens.Json",true);
-                        //JsonWriter jsonWriter = new JsonTextWriter(sw);
-
-                        //jsonSerializer.Serialize(jsonWriter, item);
-
-                        //jsonWriter.Close();
-                        //sw.Close();
-
-
-
-                        var jsonString = JsonConvert.SerializeObject(testwerknemers);
-                        File.AppendAllText("gegevens.Json", jsonString);
-                        MessageBox.Show(jsonString.ToString());
+                    }
 
 
                 }
-                
 
+                var jsonString = JsonConvert.SerializeObject(testwerknemers, Formatting.Indented);
+                File.WriteAllText("gegevens.Json", jsonString);
+                MessageBox.Show(jsonString.ToString());
 
             }
 
